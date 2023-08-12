@@ -19,8 +19,8 @@ interface ItodoList {
 function App() {
   return (
     <div style={{
-      display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '50vw', height: '80vh',
-      minWidth: 'inherit'
+      display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '70vw', height: '80vh',
+      minWidth: 'inherit', minHeight: 'inherit'
     }}>
       <TodoInput></TodoInput>
       <TodoDisplay></TodoDisplay>

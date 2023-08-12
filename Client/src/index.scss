@@ -10,6 +10,22 @@ body {
   min-width: 500px;
 }
 
+/* Landscape styles when width is greater than height */
+@media (orientation: landscape) {
+  body {
+    min-width: 500px;
+    min-height: 500px;
+  }
+}
+
+/* Portrait styles when height is greater than width */
+@media (orientation: portrait) {
+  body {
+    min-width: 300px;
+    min-height: 300px;
+  }
+}
+
 #root {
   display: flex;
   justify-content: center;
