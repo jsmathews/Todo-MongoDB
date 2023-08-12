@@ -1,13 +1,22 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
+import { saveTodo, ISaveTodo, IGetTodo, getTodo, IMoveToDone, moveToDone, IGetDone, getDone } from '../httpMethods/HttpMethods';
 
-interface ItodoList {
-    id: string,
-    content: string
+export interface ItodoList {
+    _id: string,
+    text: string
 }
 
 interface ITodoCreateContext {
     newTodo: ItodoList[],
+    setNewTodo: React.Dispatch<React.SetStateAction<ItodoList[]>>,
     completedTodo: ItodoList[],
+    setCompletedTodo: React.Dispatch<React.SetStateAction<ItodoList[]>>,
+    saveTodo: ISaveTodo,
+    getTodo: IGetTodo,
+    moveToDone: IMoveToDone,
+    toggleTodo: boolean,
+    setToggleTodo: React.Dispatch<React.SetStateAction<boolean>>,
+    getDone: IGetDone
 }
 
 export var TodoCreateContext = createContext<ITodoCreateContext | undefined>(undefined);
@@ -20,9 +29,21 @@ export function TodoContextProvider({ children }: ITodoContextProviderProps) {
 
     var [newTodo, setNewTodo] = useState<ItodoList[]>([]);
     var [completedTodo, setCompletedTodo] = useState<ItodoList[]>([]);
+    var [toggleTodo, setToggleTodo] = useState<boolean>(true); // true-todo, false-done
 
     return (
-        <TodoCreateContext.Provider value={{ newTodo, completedTodo }}>
+        <TodoCreateContext.Provider value={{
+            newTodo,
+            setNewTodo,
+            completedTodo,
+            setCompletedTodo,
+            saveTodo,
+            getTodo,
+            moveToDone,
+            toggleTodo,
+            setToggleTodo,
+            getDone
+        }}>
             {children}
         </TodoCreateContext.Provider>
     );

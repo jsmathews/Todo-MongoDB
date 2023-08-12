@@ -1,0 +1,39 @@
+.todoItemContainer {
+    margin-bottom: 5px;
+    border: 1px solid #0D6EFD;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    min-height: 30px;
+
+    .checkboxContainer {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        width: 5%;
+    }
+
+    .todoTextContainer {
+        font-size: 1.25rem;
+        width: 80%;
+        height: auto;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    .editAndUpdateContainer {
+        display: none;
+        flex-direction: row;
+        width: 15%;
+    }
+}
+
+.todoItemContainer:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.todoItemContainer:hover .editAndUpdateContainer {
+    display: flex;
+}

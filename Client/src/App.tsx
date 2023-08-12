@@ -1,22 +1,22 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, useEffect } from 'react'
 import './App.scss'
 
 import { TodoInput } from './component/TodoInput'
 import { TodoDisplay } from './component/TodoDisplay'
-
-interface ITodoContext {
-  todoList: ItodoList[]
-  addNewTodo: (newTodo: { id: string, content: string }) => void
-}
-
-export var TodoContext = createContext<ITodoContext | undefined>(undefined);
-
-interface ItodoList {
-  id: string,
-  content: string
-}
+import { TodoUseContext } from './component/Context'
 
 function App() {
+  var { getTodo, setNewTodo, getDone, setCompletedTodo } = TodoUseContext()
+  useEffect(() => {
+    getTodo().then((value) => {
+      setNewTodo(value)
+    })
+
+    getDone().then((value) => {
+      setCompletedTodo(value)
+    })
+  }, [])
+
   return (
     <div style={{
       display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '70vw', height: '80vh',
