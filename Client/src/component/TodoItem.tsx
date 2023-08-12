@@ -1,8 +1,10 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
 import { TodoUseContext } from './Context';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import '../style/TodoItem.scss'
 
 export interface ITodoItemProps {
@@ -11,11 +13,13 @@ export interface ITodoItemProps {
 }
 
 export function TodoItem(props: ITodoItemProps) {
-    var { moveToDone, getTodo, setNewTodo, setCompletedTodo } = TodoUseContext()
+    const [show, setShow] = useState<boolean>(false);
+    var { moveToDone, getTodo, setNewTodo, setCompletedTodo, deleteTodo } = TodoUseContext();
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const handleClickOnCheckbox = async (event: ChangeEvent<HTMLInputElement>, id: string) => {
-        // console.log(event.currentTarget.checked)
-        // console.log(id)
         try {
             if (event.currentTarget.checked) {
                 // update state of done task
@@ -28,36 +32,23 @@ export function TodoItem(props: ITodoItemProps) {
                 })
             }
         } catch (error) {
-
+            console.log(error)
         }
+    }
 
+    const handleClickOnDelete = async (id: string) => {
+        handleClose();
+        var deleteResponse = await deleteTodo(id);
+        console.log('deleteResponse: ', deleteResponse)
 
+        // update state of todo task
+        getTodo().then((value) => {
+            setNewTodo(value)
+        })
     }
 
     return (
-        // <div key={props._id} style={{ display: 'flex', flexDirection: 'row' }}>
-        //     <input type="checkbox" name="" id="" />
-        //     <div>{props.text}</div>
-        // </div>
-
-        // <Card body>{props.text}</Card>
-
-        // <div className='todoItemContainer'>
-        //     <div className='checkboxContainer'>
-        //         <input type="checkbox" name="" id="" />
-        //     </div>
-
-        //     <div className='todoTextContainer' >
-        //         {props.text}
-        //     </div>
-
-        //     <div className='editAndUpdateContainer'>
-        //         <div><i className="bi bi-pencil-square"></i></div>
-        //         <div><i className="bi bi-trash3"></i></div>
-        //     </div>
-        // </div>
-
-        <Alert style={{ display: 'flex', overflowWrap: 'anywhere' }} variant={'info'}>
+        <Alert style={{ display: 'flex', overflowWrap: 'anywhere' }} variant={'primary'}>
             <Form.Check
                 key={props._id}
                 inline
@@ -68,11 +59,26 @@ export function TodoItem(props: ITodoItemProps) {
 
             <div style={{ width: "10%", display: 'flex' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', width: "50%", height: '100%' }}>
-                    <i className="bi bi-pencil-square"></i>
+                    {/* <i className="bi bi-pencil-square"></i> */}
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'center', width: "50%", height: '100%' }}>
-                    <i className="bi bi-trash3"></i>
+                    <i className="bi bi-trash3" onClick={handleShow}></i>
+
+                    <Modal show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Delete To-do</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>Click <b>Confirm</b> to Delete</Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Close
+                            </Button>
+                            <Button variant="primary" onClick={() => { handleClickOnDelete(props._id) }}>
+                                Confirm
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
                 </div>
 
             </div>

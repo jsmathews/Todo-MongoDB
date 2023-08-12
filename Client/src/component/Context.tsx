@@ -1,5 +1,8 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
-import { saveTodo, ISaveTodo, IGetTodo, getTodo, IMoveToDone, moveToDone, IGetDone, getDone } from '../httpMethods/HttpMethods';
+import {
+    saveTodo, ISaveTodo, IGetTodo, getTodo, IMoveToDone, moveToDone, IGetDone, getDone, IMoveToTodo, moveToTodo,
+    IDeleteTodo, deleteTodo
+} from '../httpMethods/HttpMethods';
 
 export interface ItodoList {
     _id: string,
@@ -16,7 +19,9 @@ interface ITodoCreateContext {
     moveToDone: IMoveToDone,
     toggleTodo: boolean,
     setToggleTodo: React.Dispatch<React.SetStateAction<boolean>>,
-    getDone: IGetDone
+    getDone: IGetDone,
+    moveToTodo: IMoveToTodo,
+    deleteTodo: IDeleteTodo
 }
 
 export var TodoCreateContext = createContext<ITodoCreateContext | undefined>(undefined);
@@ -42,7 +47,9 @@ export function TodoContextProvider({ children }: ITodoContextProviderProps) {
             moveToDone,
             toggleTodo,
             setToggleTodo,
-            getDone
+            getDone,
+            moveToTodo,
+            deleteTodo
         }}>
             {children}
         </TodoCreateContext.Provider>

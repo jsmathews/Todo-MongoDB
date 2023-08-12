@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
@@ -11,40 +11,42 @@ export interface IDoneItemProps {
 }
 
 export function DoneItem(props: IDoneItemProps) {
-    var { moveToDone, getTodo, setNewTodo, setCompletedTodo } = TodoUseContext()
+    var { setNewTodo, setCompletedTodo, moveToTodo, getDone } = TodoUseContext();
+    const [isChecked, setIsChecked] = useState<boolean>(true);
 
     const handleClickOnCheckbox = async (event: ChangeEvent<HTMLInputElement>, id: string) => {
-        // // console.log(event.currentTarget.checked)
-        // // console.log(id)
-        // try {
-        //     if (event.currentTarget.checked) {
-        //         // update state of done task
-        //         var doneTodo = await moveToDone(id);
-        //         setCompletedTodo(prevItems => [...prevItems, doneTodo])
 
-        //         // update state of todo task
-        //         getTodo().then((value) => {
-        //             setNewTodo(value)
-        //         })
-        //     }
-        // } catch (error) {
+        try {
+            if (isChecked) {
+                setIsChecked(false);
 
-        // }
+                // update state of todo task
+                var todo = await moveToTodo(id);
+                setNewTodo(prevItems => [...prevItems, todo])
+
+                // update state of done task
+                getDone().then((value) => {
+                    setCompletedTodo(value)
+                })
+            }
+        } catch (error) {
+
+        }
 
 
     }
 
     return (
 
-        <Alert style={{ display: 'flex', overflowWrap: 'anywhere' }} variant={'info'}>
+        <Alert style={{ display: 'flex', overflowWrap: 'anywhere' }} variant={'warning '}>
             <Form.Check
                 key={props._id}
                 inline
                 name="group1"
-                checked={true}
+                checked={isChecked}
                 onChange={(event) => { handleClickOnCheckbox(event, props._id) }}
             />
-            <div style={{ width: '90%' }}>{props.text}</div>
+            <div style={{ width: '90%' }}><del>{props.text}</del></div>
 
         </Alert>
 

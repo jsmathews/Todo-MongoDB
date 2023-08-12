@@ -16,12 +16,17 @@ export function TodoOptionsTab() {
     }
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'end', padding: '8px', width: '100%', height: '10%' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px', width: '100%', height: '10%' }}>
+            <div style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
+                {toggleTodo ? 'To-do' : 'Completed'}
+            </div>
 
-
+            {/* 
             <Button variant="primary" onClick={handleClickOnToggle}>
                 {toggleTodo ? 'Show Completed' : 'Show Todo'}
-            </Button>{' '}
+            </Button>{' '} */}
+
+
             {/* <Navbar variant="dark" bg="dark" expand="lg">
                 <Container fluid>
                     <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
@@ -49,17 +54,16 @@ export function TodoOptionsTab() {
             </Navbar> */}
 
 
-            {/* <Dropdown>
+            <Dropdown>
                 <Dropdown.Toggle >
-                    Dropdown Button
+                    Option
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    <Dropdown.Item>Action</Dropdown.Item>
-                    <Dropdown.Item >Another action</Dropdown.Item>
-                    <Dropdown.Item >Something else</Dropdown.Item>
+                    <Dropdown.Item onClick={() => { setToggleTodo(true) }}>Show Todo</Dropdown.Item>
+                    <Dropdown.Item onClick={() => { setToggleTodo(false) }}>Show Completed</Dropdown.Item>
                 </Dropdown.Menu>
-            </Dropdown> */}
+            </Dropdown>
 
 
             {/* <Nav className='justify-content-end'>

@@ -70,3 +70,37 @@ export const moveToDone: IMoveToDone = (_id) => {
 
     })
 }
+
+export interface IMoveToTodo {
+    (_id: string): Promise<{ _id: string, text: string }>
+}
+
+export const moveToTodo: IMoveToTodo = (_id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let response = await axios.post(url + 'moveToTodo', { _id });
+            resolve(response.data)
+        } catch (error) {
+            reject(error)
+            console.log(error)
+        }
+
+    })
+}
+
+export interface IDeleteTodo {
+    (_id: string): Promise<string>
+}
+
+export const deleteTodo: IDeleteTodo = (_id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let response = await axios.post(url + 'deleteTodo', { _id });
+            resolve(response.data)
+        } catch (error) {
+            reject(error)
+            console.log(error)
+        }
+
+    })
+}
