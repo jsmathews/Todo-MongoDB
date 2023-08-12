@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
 import {
     saveTodo, ISaveTodo, IGetTodo, getTodo, IMoveToDone, moveToDone, IGetDone, getDone, IMoveToTodo, moveToTodo,
-    IDeleteTodo, deleteTodo
+    IDeleteTodo, deleteTodo, IUpdateTodo, updateTodo
 } from '../httpMethods/HttpMethods';
 
 export interface ItodoList {
@@ -21,7 +21,8 @@ interface ITodoCreateContext {
     setToggleTodo: React.Dispatch<React.SetStateAction<boolean>>,
     getDone: IGetDone,
     moveToTodo: IMoveToTodo,
-    deleteTodo: IDeleteTodo
+    deleteTodo: IDeleteTodo,
+    updateTodo: IUpdateTodo,
 }
 
 export var TodoCreateContext = createContext<ITodoCreateContext | undefined>(undefined);
@@ -49,7 +50,8 @@ export function TodoContextProvider({ children }: ITodoContextProviderProps) {
             setToggleTodo,
             getDone,
             moveToTodo,
-            deleteTodo
+            deleteTodo,
+            updateTodo
         }}>
             {children}
         </TodoCreateContext.Provider>

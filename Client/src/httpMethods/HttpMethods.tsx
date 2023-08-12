@@ -104,3 +104,20 @@ export const deleteTodo: IDeleteTodo = (_id) => {
 
     })
 }
+
+export interface IUpdateTodo {
+    (_id: string, text: string): Promise<{ _id: string, text: string }>
+}
+
+export const updateTodo: IUpdateTodo = (_id, text) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let response = await axios.post(url + 'updateTodo', { _id, text });
+            resolve(response.data)
+        } catch (error) {
+            reject(error)
+            console.log(error)
+        }
+
+    })
+}

@@ -11,7 +11,6 @@ export function TodoDisplay() {
     })
 
     var done = completedTodo.map((value) => {
-        console.log(value)
         return (<DoneItem key={value._id} _id={value._id} text={value.text}></DoneItem>)
     })
 

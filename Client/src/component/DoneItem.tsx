@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useState } from 'react';
-import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
 import { TodoUseContext } from './Context';

@@ -1,5 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
-import Card from 'react-bootstrap/Card';
+import React, { ChangeEvent, useRef, useState, FormEvent } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
 import { TodoUseContext } from './Context';
@@ -13,11 +12,18 @@ export interface ITodoItemProps {
 }
 
 export function TodoItem(props: ITodoItemProps) {
-    const [show, setShow] = useState<boolean>(false);
-    var { moveToDone, getTodo, setNewTodo, setCompletedTodo, deleteTodo } = TodoUseContext();
+    const [showDelete, setShow] = useState<boolean>(false);
+    const [showUpdate, setShowUpdate] = useState<boolean>(false);
+    const refUpdateInput = useRef<HTMLInputElement>(null)
+    const [updateText, setUpdateText] = useState<string>('');
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    var { moveToDone, getTodo, setNewTodo, setCompletedTodo, deleteTodo, updateTodo } = TodoUseContext();
+
+    const handleDeleteClose = () => setShow(false);
+    const handleDeleteShow = () => setShow(true);
+
+    const handleUpdateClose = () => setShowUpdate(false);
+    const handleUpdateShow = (todoText: string) => { setUpdateText(todoText); setShowUpdate(true); }
 
     const handleClickOnCheckbox = async (event: ChangeEvent<HTMLInputElement>, id: string) => {
         try {
@@ -37,14 +43,41 @@ export function TodoItem(props: ITodoItemProps) {
     }
 
     const handleClickOnDelete = async (id: string) => {
-        handleClose();
-        var deleteResponse = await deleteTodo(id);
-        console.log('deleteResponse: ', deleteResponse)
+        try {
 
-        // update state of todo task
-        getTodo().then((value) => {
-            setNewTodo(value)
-        })
+            var deleteResponse = await deleteTodo(id);
+            console.log('deleteResponse: ', deleteResponse)
+
+            // update state of todo task
+            getTodo().then((value) => {
+                setNewTodo(value)
+            })
+
+            handleDeleteClose();
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    const handleOnChangeOnUpdate = (event: ChangeEvent<HTMLInputElement>) => {
+        setUpdateText(event.currentTarget?.value);
+    }
+
+    const handleClickOnUpdate = async (props: ITodoItemProps) => {
+
+        try {
+            await updateTodo(props._id, updateText);
+            // update state of todo task
+            getTodo().then((value) => {
+                setNewTodo(value)
+            })
+            handleUpdateClose()
+        } catch (error) {
+            console.log(error)
+
+        }
+
     }
 
     return (
@@ -59,19 +92,49 @@ export function TodoItem(props: ITodoItemProps) {
 
             <div style={{ width: "10%", display: 'flex' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', width: "50%", height: '100%' }}>
-                    {/* <i className="bi bi-pencil-square"></i> */}
+                    <i className="bi bi-pencil-square" onClick={() => { handleUpdateShow(props.text) }}></i>
+
+                    <Modal show={showUpdate} onHide={handleUpdateClose}>
+                        <Form onSubmit={(e: FormEvent<HTMLFormElement>) => { e.preventDefault(); handleClickOnUpdate(props) }}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Update</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Control
+                                        required
+                                        isInvalid={updateText ? false : true}
+                                        ref={refUpdateInput}
+                                        type="text"
+                                        value={updateText}
+                                        onChange={handleOnChangeOnUpdate}
+                                    />
+                                </Form.Group>
+
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={handleUpdateClose}>
+                                    Close
+                                </Button>
+                                <Button variant="primary" onClick={() => { handleClickOnUpdate(props) }} >
+                                    Update
+                                </Button>
+                            </Modal.Footer>
+                        </Form>
+                    </Modal>
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'center', width: "50%", height: '100%' }}>
-                    <i className="bi bi-trash3" onClick={handleShow}></i>
+                    <i className="bi bi-trash3" onClick={handleDeleteShow}></i>
 
-                    <Modal show={show} onHide={handleClose}>
+                    <Modal show={showDelete} onHide={handleDeleteClose}>
                         <Modal.Header closeButton>
                             <Modal.Title>Delete To-do</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>Click <b>Confirm</b> to Delete</Modal.Body>
                         <Modal.Footer>
-                            <Button variant="secondary" onClick={handleClose}>
+                            <Button variant="secondary" onClick={handleDeleteClose}>
                                 Close
                             </Button>
                             <Button variant="primary" onClick={() => { handleClickOnDelete(props._id) }}>
@@ -82,7 +145,7 @@ export function TodoItem(props: ITodoItemProps) {
                 </div>
 
             </div>
-        </Alert>
+        </Alert >
 
     );
 }

@@ -10,7 +10,6 @@ export function TodoInput() {
     var todoOnChange = useRef<string>()
     var refInputElement = useRef<HTMLInputElement>(null)
     const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
-        // console.log(event.currentTarget.value)
         todoOnChange.current = event.currentTarget.value;
     }
 
