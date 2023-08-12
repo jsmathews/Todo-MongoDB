@@ -5,6 +5,10 @@ const todoSchema = new mongoose.Schema({
         type: String,
         required: true
     }
+}, {
+    toJSON: {
+        versionKey: false
+    }
 });
 
-module.exports = mongoose.model('ToDo', todoSchema);
+module.exports = mongoose.model('todo', todoSchema);
