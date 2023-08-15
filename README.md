@@ -1,4 +1,4 @@
-# React Calculator
+# Todo-React-MongoDB
 ## Table of contents
 * [General info](#general-info)
 * [Features](#features)
@@ -7,6 +7,8 @@
 
 ## General info
 A Todo app designed using React with TypeScript for Fronend and Node.js for Backend API and MongoDB as Databse to save Todo's.The app is containerized using Docker and hosted using NGINX.
+
+![](https://github.com/jsmathews/Todo-MongoDB/blob/master/Todo-Demo.gif)
 
 ## Features
 - Create new Todo
