@@ -45,8 +45,7 @@ export function TodoItem(props: ITodoItemProps) {
     const handleClickOnDelete = async (id: string) => {
         try {
 
-            var deleteResponse = await deleteTodo(id);
-            console.log('deleteResponse: ', deleteResponse)
+            await deleteTodo(id);
 
             // update state of todo task
             getTodo().then((value) => {
@@ -81,23 +80,23 @@ export function TodoItem(props: ITodoItemProps) {
     }
 
     return (
-        <Alert style={{ display: 'flex', overflowWrap: 'anywhere' }} variant={'primary'}>
+        <Alert className='todoContainer' variant={'primary'}>
             <Form.Check
                 key={props._id}
                 inline
                 name="group1"
                 onChange={(event) => { handleClickOnCheckbox(event, props._id) }}
             />
-            <div style={{ width: '90%' }}>{props.text}</div>
+            <div className='todoText' >{props.text}</div>
 
-            <div style={{ width: "10%", display: 'flex' }}>
-                <div style={{ display: 'flex', justifyContent: 'center', width: "50%", height: '100%' }}>
+            <div className='editAndUpdateContainer'>
+                <div >
                     <i className="bi bi-pencil-square" onClick={() => { handleUpdateShow(props.text) }}></i>
 
                     <Modal show={showUpdate} onHide={handleUpdateClose}>
                         <Form onSubmit={(e: FormEvent<HTMLFormElement>) => { e.preventDefault(); handleClickOnUpdate(props) }}>
                             <Modal.Header closeButton>
-                                <Modal.Title>Update</Modal.Title>
+                                <Modal.Title>Update To-do</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
 
@@ -125,20 +124,20 @@ export function TodoItem(props: ITodoItemProps) {
                     </Modal>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'center', width: "50%", height: '100%' }}>
+                <div >
                     <i className="bi bi-trash3" onClick={handleDeleteShow}></i>
 
                     <Modal show={showDelete} onHide={handleDeleteClose}>
                         <Modal.Header closeButton>
                             <Modal.Title>Delete To-do</Modal.Title>
                         </Modal.Header>
-                        <Modal.Body>Click <b>Confirm</b> to Delete</Modal.Body>
+                        <Modal.Body>Please click the <b>Delete</b> button to confirm action</Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleDeleteClose}>
                                 Close
                             </Button>
                             <Button variant="primary" onClick={() => { handleClickOnDelete(props._id) }}>
-                                Confirm
+                                Delete
                             </Button>
                         </Modal.Footer>
                     </Modal>

@@ -2,7 +2,7 @@ import axios from "axios";
 import { ItodoList } from "../component/Context";
 
 
-let url = 'http://192.168.178.22:4000/'
+let url = 'http://localhost:4000/'
 
 export interface IGetTodo {
     (): Promise<ItodoList[]>

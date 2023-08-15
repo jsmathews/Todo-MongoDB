@@ -8,11 +8,15 @@ const router = require('./routes/TodoRoutes')
 app.use(express.json());
 app.use(cors());
 
-var dbConnectOptions = {
+const mongoDbHostName = process.env.MONGODB_HOST_NAME || "localhost";
+
+const mongoDbConnectionString = `mongodb://${mongoDbHostName}:27017`
+
+const dbConnectOptions = {
     dbName: 'todoApp',
 }
 
-mongoose.connect('mongodb://127.0.0.1:27017', dbConnectOptions)
+mongoose.connect(mongoDbConnectionString, dbConnectOptions)
     .then(() => { console.log('Mongodb Connected'); })
     .catch(error => console.log(error))
 

@@ -2,6 +2,7 @@ import { TodoOptionsTab } from "./TodoOptionsTab";
 import { TodoItem } from "./TodoItem";
 import { DoneItem } from "./DoneItem";
 import { TodoUseContext } from "./Context";
+import "../style/TodoDisplay.scss"
 
 export function TodoDisplay() {
     var { newTodo, toggleTodo, completedTodo } = TodoUseContext()
@@ -17,16 +18,15 @@ export function TodoDisplay() {
 
 
     return (
-        <div style={{ width: '100%', height: '90%', boxShadow: '0 0 20px rgba(0, 0, 0, 0.25)', borderRadius: '10px' }}>
+        <div className="todoDisplayContainer" >
             <TodoOptionsTab></TodoOptionsTab>
             {
                 toggleTodo ? (
-                    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '90%', overflowY: 'scroll' }}>
+                    <div className="todoItemContainer">
                         {todo}
                     </div>
                 ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '90%', overflowY: 'scroll' }}>
-                        {/* <p>Hello</p> */}
+                    <div className="todoItemContainer">
                         {done}
                     </div>
                 )

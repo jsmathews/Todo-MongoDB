@@ -1,39 +1,27 @@
-.todoItemContainer {
-    margin-bottom: 5px;
-    border: 1px solid #0D6EFD;
+.todoContainer {
     display: flex;
     flex-direction: row;
-    width: 100%;
-    height: auto;
-    min-height: 30px;
+    overflow-wrap: anywhere;
 
-    .checkboxContainer {
-        display: flex;
-        justify-content: center;
-        align-items: start;
-        width: 5%;
-    }
-
-    .todoTextContainer {
-        font-size: 1.25rem;
-        width: 80%;
-        height: auto;
-        max-width: 100%;
-        overflow-wrap: anywhere;
+    .todoText {
+        width: 90%;
     }
 
     .editAndUpdateContainer {
-        display: none;
-        flex-direction: row;
-        width: 15%;
+        display: flex;
+        width: 10%;
     }
 }
 
-.todoItemContainer:hover {
-    cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.1);
-}
+.editAndUpdateContainer {
+    >div {
+        display: flex;
+        justify-content: center;
+        width: 50%;
+        height: 100%;
+    }
 
-.todoItemContainer:hover .editAndUpdateContainer {
-    display: flex;
+    &:hover {
+        cursor: pointer;
+    }
 }

@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+
+  server:
+    build:
+      context: .
+      dockerfile: Backend/Dockerfile
+    ports:
+      - 4000:4000
+    environment:
+      - MONGODB_HOST_NAME=mongo
+    depends_on:
+      - mongo
+
+  client:
+    build:
+      context: .
+      dockerfile: Client/Dockerfile
+    ports:
+      - 3000:80
+    depends_on:
+      - server
